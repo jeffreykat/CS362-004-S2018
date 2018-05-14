@@ -81,7 +81,7 @@ runcardtests: cardtest1.c cardtest2.c cardtest3.c cardtest4.c dominion.c rngs.c
 	gcov dominion.c >> unittestresults.out
 	cat dominion.c.gcov >> unittestresults.out
 
-runrandomtests: randomtestcard1.c randomtestcard2.c randomtestadventurer.c cominion.c rngs.c
+runrandomtests: randomtestcard1.c randomtestcard2.c randomtestadventurer.c dominion.c rngs.c
 	echo "random card 1: " >> randomtestcard1.out
 	gcc -o randomtestcard1 -g randomtestcard1.c dominion.c rngs.c $(CFLAGS)
 	./randomtestcard1 >> randomtestcard1.out
