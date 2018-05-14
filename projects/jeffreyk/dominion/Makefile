@@ -82,6 +82,10 @@ runcardtests: cardtest1.c cardtest2.c cardtest3.c cardtest4.c dominion.c rngs.c
 	cat dominion.c.gcov >> unittestresults.out
 
 runrandomtests: randomtestcard1.c randomtestcard2.c randomtestadventurer.c dominion.c rngs.c
+	echo "random test adventurer: " >> randomtestadventurer.out
+	gcc -o randomtestadventurer -g randomtestadventurer.c dominion.c rngs.c $(CFLAGS)
+	./randomtestadventurer >> randomtestadventurer.out
+	gcov randomtestadventurer.c >> randomtestadventurer.out
 	echo "random card 1: " >> randomtestcard1.out
 	gcc -o randomtestcard1 -g randomtestcard1.c dominion.c rngs.c $(CFLAGS)
 	./randomtestcard1 >> randomtestcard1.out
@@ -90,10 +94,6 @@ runrandomtests: randomtestcard1.c randomtestcard2.c randomtestadventurer.c domin
 	gcc -o randomtestcard2 -g randomtestcard2.c dominion.c rngs.c $(CFLAGS)
 	./randomtestcard2 >> randomtestcard2.out
 	gcov randomtestcard2.c >> randomtestcard2.out
-	echo "random test adventurer: " >> randomtestadventurer.out
-	gcc -o randomtestadventurer -g randomtestadventurer.c dominion.c rngs.c $(CFLAGS)
-	./randomtestadventurer >> randomtestadventurer.out
-	gcov randomtestadventurer.c >> randomtestadventurer.out
 
 player: player.c interface.o
 	gcc -o player player.c -g  dominion.o rngs.o interface.o $(CFLAGS)

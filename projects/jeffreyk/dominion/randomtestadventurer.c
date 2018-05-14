@@ -10,7 +10,7 @@
 int adventurerTest(){
    //MAX_HAND and MAX_DECK are 500
    //MAX_PLAYERS is 4
-   int r, i, j, result, expected;
+   int r, d, c, result, expected;
    int z = 0;
    int numPlayers = 2;
    int player1 = 0;
@@ -25,12 +25,12 @@ int adventurerTest(){
    G.deckCount[player1] = 10;
    int temphand[MAX_HAND];
    int cards[10] = {adventurer, gardens, smithy, gold, silver, copper, mine, feast, embargo, minion};
-   for(int d = 0; d < 10; d++){
+   for(d = 0; d < 10; d++){
       G.deck[player1][d] = cards[rand() % 10];
    }
    int treasure1 = -1;
    int treasure2 = -1;
-   for(int c = 9; c > -1; c--){
+   for(c = 9; c > -1; c--){
       if(G.deck[player1][c] == copper || G.deck[player1][c] == gold || G.deck[player1][c] == silver){
 	 if(treasure1 == -1){
 	    treasure1 = c;
@@ -44,7 +44,7 @@ int adventurerTest(){
       }
    }
    //adventurerAction(drawnTreasure, &G, player1, cardDrawn, player2, temphand, z);
-   cardEffect(adventurer, 0, 0, z, &G, cardDrawn, 0);
+   cardEffect(adventurer, 0, 0, z, &G, drawnTreasure, 0);
    if(treasure2 <= 0){
       expected = 0;
    }
@@ -52,7 +52,9 @@ int adventurerTest(){
       expected = treasure2 - 1;
    }
    result = G.handCount[player1];
-   return assertInt(result, expected);
+   if(result == expected)
+      return 0;
+   return 1;
 }
 
 int main() {
