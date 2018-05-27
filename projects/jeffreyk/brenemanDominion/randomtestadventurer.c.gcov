@@ -35,13 +35,13 @@
         -:   30:   }
       298:   31:   int treasure1 = -1;
       298:   32:   int treasure2 = -1;
-     2572:   33:   for(c = 9; c > -1; c--){
-     2462:   34:      if(G.deck[player1][c] == copper || G.deck[player1][c] == gold || G.deck[player1][c] == silver){
-      729:   35:	 if(treasure1 == -1){
-      289:   36:	    treasure1 = c;
+     2451:   33:   for(c = 9; c > -1; c--){
+     2341:   34:      if(G.deck[player1][c] == copper || G.deck[player1][c] == gold || G.deck[player1][c] == silver){
+      733:   35:	 if(treasure1 == -1){
+      290:   36:	    treasure1 = c;
         -:   37:	 }
-      440:   38:	 else if(treasure2 == -1 && treasure1 != -1){
-      252:   39:	    treasure2 = c;
+      443:   38:	 else if(treasure2 == -1 && treasure1 != -1){
+      255:   39:	    treasure2 = c;
         -:   40:	 }
         -:   41:	 else{
       188:   42:	    return 1;
@@ -51,15 +51,15 @@
         -:   46:   //adventurerAction(drawnTreasure, &G, player1, cardDrawn, player2, temphand, z);
       110:   47:   cardEffect(adventurer, 0, 0, z, &G, drawnTreasure, 0);
       110:   48:   if(treasure2 <= 0){
-       62:   49:      expected = 0;
+       55:   49:      expected = 0;
         -:   50:   }
         -:   51:   else{
-       48:   52:      expected = treasure2 - 1;
+       55:   52:      expected = treasure2 - 1;
         -:   53:   }
       110:   54:   result = G.handCount[player1];
       110:   55:   if(result == expected)
-        1:   56:      return 0;
-      109:   57:   return 1;
+    #####:   56:      return 0;
+      110:   57:   return 1;
         -:   58:}
         -:   59:
         1:   60:int main() {

@@ -4,3 +4,15 @@ File 'randomtestadventurer.c'
 Lines executed:100.00% of 38
 Creating 'randomtestadventurer.c.gcov'
 
+random test adventurer: 
+FAILS: 298
+File 'randomtestadventurer.c'
+Lines executed:97.37% of 38
+Creating 'randomtestadventurer.c.gcov'
+
+random test adventurer: 
+FAILS: 298
+File 'randomtestadventurer.c'
+Lines executed:97.37% of 38
+Creating 'randomtestadventurer.c.gcov'
+
