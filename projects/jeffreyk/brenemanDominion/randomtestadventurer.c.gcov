@@ -1,0 +1,75 @@
+        -:    0:Source:randomtestadventurer.c
+        -:    0:Graph:randomtestadventurer.gcno
+        -:    0:Data:randomtestadventurer.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:#include <stdio.h>
+        -:    2:#include <time.h>
+        -:    3:#include <stdlib.h>
+        -:    4:#include "assert.h"
+        -:    5:#include "dominion.h"
+        -:    6:#include "dominion_helpers.h"
+        -:    7:#include <string.h>
+        -:    8:#include "rngs.h"
+        -:    9:
+      298:   10:int adventurerTest(){
+        -:   11:   //MAX_HAND and MAX_DECK are 500
+        -:   12:   //MAX_PLAYERS is 4
+        -:   13:   int r, d, c, result, expected;
+      298:   14:   int z = 0;
+      298:   15:   int numPlayers = 2;
+      298:   16:   int player1 = 0;
+      298:   17:   int player2 = 1;
+      298:   18:   int seed = 99;
+      298:   19:   int k[10] = {adventurer, council_room, feast, gardens, mine, remodel, smithy, village, baron, great_hall};
+      298:   20:   int drawnTreasure = 0;
+        -:   21:   struct gameState G;
+      298:   22:   memset(&G, 23, sizeof(struct gameState));
+      298:   23:   r = initializeGame(numPlayers, k, seed, &G);
+        -:   24:   
+      298:   25:   G.deckCount[player1] = 10;
+        -:   26:   int temphand[MAX_HAND];
+      298:   27:   int cards[10] = {adventurer, gardens, smithy, gold, silver, copper, mine, feast, embargo, minion};
+     3278:   28:   for(d = 0; d < 10; d++){
+     2980:   29:      G.deck[player1][d] = cards[rand() % 10];
+        -:   30:   }
+      298:   31:   int treasure1 = -1;
+      298:   32:   int treasure2 = -1;
+     2572:   33:   for(c = 9; c > -1; c--){
+     2462:   34:      if(G.deck[player1][c] == copper || G.deck[player1][c] == gold || G.deck[player1][c] == silver){
+      729:   35:	 if(treasure1 == -1){
+      289:   36:	    treasure1 = c;
+        -:   37:	 }
+      440:   38:	 else if(treasure2 == -1 && treasure1 != -1){
+      252:   39:	    treasure2 = c;
+        -:   40:	 }
+        -:   41:	 else{
+      188:   42:	    return 1;
+        -:   43:	 }
+        -:   44:      }
+        -:   45:   }
+        -:   46:   //adventurerAction(drawnTreasure, &G, player1, cardDrawn, player2, temphand, z);
+      110:   47:   cardEffect(adventurer, 0, 0, z, &G, drawnTreasure, 0);
+      110:   48:   if(treasure2 <= 0){
+       62:   49:      expected = 0;
+        -:   50:   }
+        -:   51:   else{
+       48:   52:      expected = treasure2 - 1;
+        -:   53:   }
+      110:   54:   result = G.handCount[player1];
+      110:   55:   if(result == expected)
+        1:   56:      return 0;
+      109:   57:   return 1;
+        -:   58:}
+        -:   59:
+        1:   60:int main() {
+        1:   61:   srand(time(NULL));
+        1:   62:   int test = 0;
+        -:   63:   int i;
+      299:   64:   for(i = 0; i < 298; i++){
+      298:   65:      test += adventurerTest();
+        -:   66:   }
+        1:   67:   printf("FAILS: %d\n", test);
+        1:   68:   return 0; 
+        -:   69:}
+        -:   70:
