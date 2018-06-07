@@ -15,7 +15,7 @@ public class ManualTest{
 	 if(!(check))
 	    fails++;
       }
-      System.out.print("Incorrect: ");
+      System.out.print("Incorrect valid calls: ");
       System.out.print(fails);
       System.out.println("/5");
       fails = 0;
@@ -24,7 +24,7 @@ public class ManualTest{
 	 if(check)
 	    fails++;
       }
-      System.out.print("Fails: ");
+      System.out.print("Incorrect invalid calls: ");
       System.out.print(fails);
       System.out.println("/5");
    }
