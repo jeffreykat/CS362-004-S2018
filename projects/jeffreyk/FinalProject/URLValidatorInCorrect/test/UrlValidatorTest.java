@@ -1,5 +1,3 @@
-
-
 import junit.framework.TestCase;
 import static org.junit.Assert.*;
 import static org.junit.runners.Parameterized.*;
@@ -56,15 +54,60 @@ public class UrlValidatorTest extends TestCase {
    
    public void testYourFirstPartition()
    {
-	 //You can use this function to implement your First Partition testing	   
-
+	   /*
+	    * In the context of testing valid URLs, the default is to only accept http, https, and ftp.
+	    * This tests that protocols outside this valid boundary are returned as false.
+	    */
+	   
+	   String[] invalidProtocols = {"ftp", "mailto", "news", "telnet"};
+	   
+	   UrlValidator urlVal = new UrlValidator(null, null, 0);
+	   
+	   for (int i = 0; i < invalidProtocols.length; i++) {
+		   String invalidProtocolString = String.format("%s://foo.bar.com/resource", invalidProtocols[i]);
+		   assertEquals(urlVal.isValid(invalidProtocolString), false);
+	   }
+   
    }
    
    public void testYourSecondPartition(){
-		 //You can use this function to implement your Second Partition testing	   
+	   
+	   /*
+	    * RFC 2396 defines acceptable URI schemes, of which URLs are a subset. A regular expression is used by
+	    * UrlValidator to validate these schemes. This tests that invalid schemes outside of this boundary
+	    * are returned as false.
+	    */
+   
+	   String[] invalidSchemeURLs = {
+			   "http//:foo.com",
+			   "http?://foo.com",
+			   "http://domain.com//invalidPath"
+	   };
+	   
+	   UrlValidator urlVal = new UrlValidator(null, null, 0);
+	   
+	   for (int i = 0; i < invalidSchemeURLs.length; i++) {
+		   assertEquals(urlVal.isValid(invalidSchemeURLs[i]), false);
+	   }
 
    }
-   //You need to create more test cases for your Partitions if you need to 
+   
+   public void testYourThirdPartition() {
+	   
+	   /*
+	    * RFC 2396 defines reserved characters in the URI scheme; these characters must be encoded.
+	    * This tests that invalid characters which are not encoded are returned as invalid.
+	    */
+	   
+	   String[] invalidCharacters = { ";", "/", "?", ":", "@", "&", "=", "+", "$", "," };
+	   
+	   UrlValidator urlVal = new UrlValidator(null, null, 0);
+	   
+	   for (int i = 0; i < invalidCharacters.length; i++) {
+		   String invalidCharacterURL = String.format("http://foo%s.com/resource", invalidCharacters[i]);
+		   assertEquals(urlVal.isValid(invalidCharacterURL), false);
+	   }
+   }
    
    public void testIsValid()
    {
