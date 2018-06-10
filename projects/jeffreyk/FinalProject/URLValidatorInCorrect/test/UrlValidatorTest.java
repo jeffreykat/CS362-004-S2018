@@ -81,15 +81,35 @@ public class UrlValidatorTest extends TestCase {
 	   String[] invalidSchemeURLs = {
 			   "http//:foo.com",
 			   "http?://foo.com",
-			   "http://domain.com//invalidPath"
+			   "http://foo.com//invalidPath",
+			   "*ttp://foo.com",
+			   "http://@bar.com",
+			   "//foo.com",
+			   "http://foo.com/&query?fragment"			   
 	   };
 	   
+	   String[] validSchemeURLs = {
+			   "http://foo.com",
+			   "http://foo.com/validPath",
+			   "http://foo@bar.com",
+			   "http://foo.com/query?fragment&other"
+	   };
+	    
 	   UrlValidator urlVal = new UrlValidator(null, null, 0);
 	   
 	   for (int i = 0; i < invalidSchemeURLs.length; i++) {
-		   assertEquals(urlVal.isValid(invalidSchemeURLs[i]), false);
+		   assertEquals(String.format(
+				   "Failed invalid case: %s\n",invalidSchemeURLs[i]),
+				   false,
+				   urlVal.isValid(invalidSchemeURLs[i]));		   
 	   }
-
+	   
+	   for (int i = 0; i < validSchemeURLs.length; i++) {
+		   assertEquals(String.format(
+				   "Failed valid case: %s\n",validSchemeURLs[i]),
+				   true,
+				   urlVal.isValid(validSchemeURLs[i]));
+	   }
    }
    
    public void testYourThirdPartition() {
