@@ -59,15 +59,27 @@ public class UrlValidatorTest extends TestCase {
 	    * This tests that protocols outside this valid boundary are returned as false.
 	    */
 	   
-	   String[] invalidProtocols = {"ftp", "mailto", "news", "telnet"};
+	   String[] invalidProtocols = {"mailto", "news", "telnet"};
+	   String[] validProtocols = {"http", "https", "ftp"};
 	   
 	   UrlValidator urlVal = new UrlValidator(null, null, 0);
 	   
 	   for (int i = 0; i < invalidProtocols.length; i++) {
 		   String invalidProtocolString = String.format("%s://foo.bar.com/resource", invalidProtocols[i]);
-		   assertEquals(urlVal.isValid(invalidProtocolString), false);
+		   assertEquals(String.format(
+				   "Failed invalid case: %s\n",invalidProtocolString),
+				   false,
+				   urlVal.isValid(invalidProtocolString));
 	   }
    
+	   for (int i = 0; i < validProtocols.length; i++) {
+		   String validProtocolString = String.format("%s://foo.bar.com/resource", validProtocols[i]);
+		   assertEquals(String.format(
+				   "Failed valid case: %s\n",validProtocolString),
+				   true,
+				   urlVal.isValid(validProtocolString));
+	   }	   
+	   
    }
    
    public void testYourSecondPartition(){
@@ -81,15 +93,35 @@ public class UrlValidatorTest extends TestCase {
 	   String[] invalidSchemeURLs = {
 			   "http//:foo.com",
 			   "http?://foo.com",
-			   "http://domain.com//invalidPath"
+			   "http://foo.com//invalidPath",
+			   "*ttp://foo.com",
+			   "http://@bar.com",
+			   "//foo.com",
+			   "http://foo.com/&query?fragment"			   
 	   };
 	   
+	   String[] validSchemeURLs = {
+			   "http://foo.com",
+			   "http://foo.com/validPath",
+			   "http://foo@bar.com",
+			   "http://foo.com/query?fragment&other"
+	   };
+	    
 	   UrlValidator urlVal = new UrlValidator(null, null, 0);
 	   
 	   for (int i = 0; i < invalidSchemeURLs.length; i++) {
-		   assertEquals(urlVal.isValid(invalidSchemeURLs[i]), false);
+		   assertEquals(String.format(
+				   "Failed invalid case: %s\n",invalidSchemeURLs[i]),
+				   false,
+				   urlVal.isValid(invalidSchemeURLs[i]));		   
 	   }
-
+	   
+	   for (int i = 0; i < validSchemeURLs.length; i++) {
+		   assertEquals(String.format(
+				   "Failed valid case: %s\n",validSchemeURLs[i]),
+				   true,
+				   urlVal.isValid(validSchemeURLs[i]));
+	   }
    }
    
    public void testYourThirdPartition() {
@@ -105,8 +137,11 @@ public class UrlValidatorTest extends TestCase {
 	   
 	   for (int i = 0; i < invalidCharacters.length; i++) {
 		   String invalidCharacterURL = String.format("http://foo%s.com/resource", invalidCharacters[i]);
-		   assertEquals(urlVal.isValid(invalidCharacterURL), false);
-	   }
+		   assertEquals(String.format(
+				   "Failed invalid case: %s\n", invalidCharacterURL),
+				   false,
+				   urlVal.isValid(invalidCharacterURL));
+	   }	   
    }
    
    public void testIsValid()
